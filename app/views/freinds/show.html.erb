@@ -1,0 +1,19 @@
+<div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+  <div class="card-header">
+    <h4><%= @freind.first_name %> <%= @freind.last_name %></h4>
+  </div>
+  <div class="card-body">
+    <h6 class="card-title">Freinds Details</h6>
+    <p class="card-text"><%= @freind.email %> | <%= @freind.phone %> | <%= @freind.twitter %></p>
+  </div>
+</div>
+<br>
+
+
+
+<div>
+  <%= link_to "Edit", edit_freind_path(@freind), class:"btn btn-secondary" %>
+  <%= link_to "Back", freinds_path, class:"btn btn-dark" %>
+  <br><br>
+  <%= button_to "Destroy", @freind, method: :delete, class:"btn btn-danger" %>
+</div>
