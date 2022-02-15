@@ -1,5 +1,7 @@
 class FreindsController < ApplicationController
   before_action :set_freind, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   # GET /freinds or /freinds.json
   def index
@@ -12,7 +14,8 @@ class FreindsController < ApplicationController
 
   # GET /freinds/new
   def new
-    @freind = Freind.new
+    # @freind = Freind.new
+    @freind = current_user.freinds.build
   end
 
   # GET /freinds/1/edit
@@ -21,7 +24,8 @@ class FreindsController < ApplicationController
 
   # POST /freinds or /freinds.json
   def create
-    @freind = Freind.new(freind_params)
+    # @freind = Freind.new(freind_params)
+    @freind = current_user.freinds.build(freind_params)
 
     respond_to do |format|
       if @freind.save
@@ -57,6 +61,11 @@ class FreindsController < ApplicationController
     end
   end
 
+  def correct_user
+    @freind = current_user.freinds.find_by(id: params[:id])
+    redirect_to freinds_path, notice: "Not authorized" if @freind.nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_freind
@@ -65,6 +74,6 @@ class FreindsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def freind_params
-      params.require(:freind).permit(:first_name, :last_name, :email, :phone, :twitter)
+      params.require(:freind).permit(:first_name, :last_name, :email, :phone, :twitter, :user_id)
     end
 end

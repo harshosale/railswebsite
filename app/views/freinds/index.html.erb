@@ -8,16 +8,19 @@
       <th scope="col">Handle</th>
       <th scope="col">email</th>
       <th scope="col">phone</th>
+      <th scope="col">User Id</th>
     </tr>
   </thead>
 <tbody>
   <% @freinds.each do |freind| %>
-<tr>
-    <%= render freind %>
-    <td><%= link_to "Show", freind, class:"btn btn-info"%></td>
-    <td><%= link_to "Edit", edit_freind_path(freind), class:"btn btn-warning" %></td>
-    <td><%= link_to "Destroy", freind, method: :delete, class:"btn btn-danger" %></td>
-</tr>
+    <% if freind.user == current_user %>
+      <tr>
+          <%= render freind %>
+          <td><%= link_to "Show", freind, class:"btn btn-info"%></td>
+          <td><%= link_to "Edit", edit_freind_path(freind), class:"btn btn-warning" %></td>
+          <td><%= link_to "Destroy", freind, method: :delete, class:"btn btn-danger" %></td>
+      </tr>
+    <% end %>
   <% end %>
 </tbody>
 </table>
